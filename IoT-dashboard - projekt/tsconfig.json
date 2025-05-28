@@ -10,12 +10,11 @@
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
   },
+  "baseUrl": "./api/lib",
   "include": [
-    "lib/**/*.ts"
+    "api/lib/**/*.ts"
   ],
   "exclude": [
     "node_modules"
   ]
- }
- 
- 
+}
