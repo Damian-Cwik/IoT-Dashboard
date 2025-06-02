@@ -5,9 +5,11 @@ import { config } from './config';
 import Controller from "./interfaces/controller.interface";
 import mongoose from 'mongoose';
 import { Request, Response, NextFunction } from 'express';
+import DataService from './modules/services/data.service';
 
 class App {
   public app: express.Application;
+  public dataServive: DataService
 
   constructor(controllers: Controller[]) {
     this.app = express();
@@ -19,7 +21,6 @@ class App {
   private initializeMiddlewares(): void {
     this.app.use(bodyParser.json());
     this.app.use(this.requestLoggerMiddleware);
-    // this.app.use(morgan('dev'));
   }
 
   private requestLoggerMiddleware = (req: Request, res: Response, next: NextFunction): void => {

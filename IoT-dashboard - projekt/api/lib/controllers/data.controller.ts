@@ -6,8 +6,7 @@ import { checkIdParam } from '../middlewares/deviceIdParam.middleware';
 import DataService from '../modules/services/data.service';
 import { config } from '../config';
 import { IData } from '../modules/models/data.model';
-
-let testArr = [4, 5, 6, 3, 5, 3, 7, 5, 13, 5, 6, 4, 3, 6, 3, 6];
+import Joi = require('joi');
 
 class DataController implements Controller {
     public path = '/api/data';
@@ -60,15 +59,29 @@ class DataController implements Controller {
         const { air } = request.body;
         const { id } = request.params;
 
-        const data: { temperature: number, pressure: number, humidity: number, deviceId: number, readingDate: any } = {
-            temperature: air[0].value,
-            pressure: air[1].value,
-            humidity: air[2].value,
-            deviceId: parseInt(id),
-            readingDate: new Date()
-        }
+        const schema = Joi.object({
+            air: Joi.array()
+                .items(
+                    Joi.object({
+                        id: Joi.number().integer().positive().required(),
+                        value: Joi.number().positive().required()
+                    })
+                )
+                .unique((a, b) => a.id === b.id),
+            deviceId: Joi.number().integer().positive().valid(parseInt(id, 10)).required()
+         });
 
+ 
         try {
+            const validateData = await schema.validateAsync({air, deviceId: parseInt(id, 10)})
+            const data: { temperature: number, pressure: number, humidity: number, deviceId: number, readingDate: any } = {
+                temperature: air[0].value,
+                pressure: air[1].value,
+                humidity: air[2].value,
+                deviceId: parseInt(id),
+                readingDate: new Date()
+            }
+
             await this.dataService.createData(data);
             response.status(200).json(data);
         } catch (error) {
