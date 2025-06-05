@@ -1,0 +1,24 @@
+.card{
+   display: flex;
+   flex-direction: column;
+   align-items: flex-start;
+   padding: 25px ;
+   margin: 10px;
+   width: 260px;
+   height: 200px;
+   font-family: sans-serif;
+   background-color: #222;
+   color: #fff;
+   cursor: pointer;
+}
+
+.deviceName{
+   font-size: 20px;
+}
+
+.separator{
+   height: 3px;
+   width: 100%;
+   background-color: #fff;
+   margin: 10px 0;
+}
