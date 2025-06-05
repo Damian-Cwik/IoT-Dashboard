@@ -6,7 +6,7 @@ const UserSchema = new Schema<IUser>({
    name: { type: String, required: true, unique: true },
    role: { type: String, enum: ['admin', 'user'], default: 'admin' },
    active: { type: Boolean, default: true },
-   isAdmin: { type: Boolean, default: true }
+   isAdmin: { type: Boolean, default: false }
 });
 
 export default model<IUser>('User', UserSchema)

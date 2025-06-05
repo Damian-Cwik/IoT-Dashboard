@@ -1,21 +1,18 @@
-import { date } from 'joi';
 import Controller from '../interfaces/controller.interface';
 import { Request, Response, NextFunction, Router, response } from 'express';
-import { parse } from 'path';
 import { checkIdParam } from '../middlewares/deviceIdParam.middleware';
 import DataService from '../modules/services/data.service';
 import { config } from '../config';
-import { IData } from '../modules/models/data.model';
-import Joi = require('joi');
+import Joi from 'joi';
 
 class DataController implements Controller {
     public path = '/api/data';
     public router = Router();
-    private dataService = new DataService();
 
-    constructor() {
+    constructor(private dataService: DataService) {
         this.initializeRoutes();
-    }
+        this.dataService = dataService;
+    }   
 
     private initializeRoutes() {
         this.router.get(`${this.path}/latest`, this.getLatestReadingsFromAllDevices);
